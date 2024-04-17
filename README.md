@@ -34,7 +34,7 @@ optional arguments:
 * Sender implemented to add before msg text f.e. PD2EMC: message
 * Show websocket version implemented
 ````
-usage: test.py [-h] [--hostname HOSTNAME] [--port PORT] [--password PASSWORD] [--ric RIC] [--type TYPE] [--func FUNC] [--msg MSG] [--sender SENDER] [--debug] [-i] [-v]
+usage: unipager_send_v2.1.py [-h] [--hostname HOSTNAME] [--port PORT] [--password PASSWORD] [--ric RIC] [--type TYPE] [--func FUNC] [--msg MSG] [--sender SENDER] [--debug] [-i] [-v]
 
 Send paging call directly via Unipager
 
