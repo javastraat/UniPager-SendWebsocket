@@ -29,7 +29,7 @@ def debug(str):
 def display_websocket_version():
     print('Websocket version: ' + websocket.__version__)
 
-parser = argparse.ArgumentParser(description='f.e. unipager_send_v2.1.py --hostname serverip --password passw0rd --ric 1234567 --msg "yourtext here"')
+parser = argparse.ArgumentParser(description='unipager_send_v2.1.py --hostname serverip --password passw0rd --ric 1234567 --sender YOURCALL --msg "yourtext here"')
 parser.add_argument('--hostname', default='localhost',
                     help='The host running Unipager, default localhost')
 parser.add_argument('--port', default='8055',
