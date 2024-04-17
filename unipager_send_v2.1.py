@@ -1,7 +1,6 @@
 #!/Library/Frameworks/Python.framework/Versions/2.7/bin/python
 ##!/opt/homebrew/bin/python3.11
 ##!/usr/bin/python3
-
 import json
 import pprint
 import websocket
@@ -70,31 +69,51 @@ if DEBUG: print("Debug enabled")
 
 if args.interactive:
     # Interactive input
-    hostname = user_input("Enter the hostname (default: localhost): ") or args.hostname
-    port = user_input("Enter the port (default: 8055): ") or args.port
-    password = user_input("Enter the Unipager password (default: empty): ") or args.password
+    hostname_input = user_input("Enter the hostname (default: localhost): ")
+    hostname = hostname_input or args.hostname
+
+    port_input = user_input("Enter the port (default: 8055): ")
+    port = port_input or args.port
+
+    password_input = user_input("Enter the Unipager password (default: empty): ")
+    password = password_input or args.password
 
     # Prompt for RIC until a valid integer is provided
     while True:
         try:
-            ric = int(user_input("Enter the RIC to send the message to: "))
+            ric_input = user_input("Enter the RIC to send the message to: ")
+            ric = int(ric_input)
             break
         except ValueError:
             print("Invalid RIC. Please enter a valid integer.")
 
-    msg = args.msg
-    while not msg:
-        msg = user_input("Enter the message: ") or args.msg
-    
-    sender = args.sender
-    while not sender:
-        sender = user_input("Enter the sender callsign: ") or args.sender
+    msg_input = user_input("Enter the message: ")
+    msg = msg_input or args.msg
 
-    if not msg:
-        print('No message given, nothing to do')
-        exit()
-    if not sender:
-        print('No sender given, nothing to do')
+    sender_input = user_input("Enter the sender callsign: ")
+    sender = sender_input or args.sender
+
+    print("\nPlease confirm the following inputs:")
+    print("Hostname:", hostname)
+    print("Port:", port)
+    print("Password:", password)
+    print("RIC:", ric)
+    print("Message:", msg)
+    print("Sender:", sender)
+
+    confirmation = user_input("\nConfirm sending the message (yes/no, default: yes): ").lower()
+    if confirmation != 'no':
+        confirmation = 'yes'
+
+    if confirmation == 'yes':
+        if not msg:
+            print('No message given, nothing to do')
+            exit()
+        if not sender:
+            print('No sender given, nothing to do')
+            exit()
+    else:
+        print("Message sending cancelled.")
         exit()
 else:
     # Use command-line arguments
@@ -127,7 +146,6 @@ funcs = ["Func0", "Func1", "Func2", "Func3"]
 m_func = funcs[int(args.func)]
 
 # Prepend sender to the message
-#msg_with_sender = f"{sender}: {msg}"
 msg_with_sender = "{}: {}".format(sender, msg)
 
 # SendMessage with Variables
