@@ -30,9 +30,9 @@ optional arguments:
   --debug              Enable debug
 ````
 ## Version 2.1: unipager_send_v2.1.py
-* Interactive mode implemented
-* Sender implemented to add before msg text f.e. PD2EMC: message
-* Show websocket version implemented
+* Interactive mode 
+* Sender option added to add before msg text f.e. PD2EMC: message
+* Show websocket en python version 
 ````
 Send paging call directly via Unipager
 usage: unipager_send_v2.1.py [-h] [--hostname HOSTNAME] [--port PORT]
@@ -55,7 +55,7 @@ optional arguments:
   --sender SENDER      Sender of the message
   --debug              Enable debug
   -i, --interactive    Enable interactive mode
-  -v, --version        Display WebSocket version
+  -v, --version        Display WebSocket and Python version
 ````
 ````
 unipager_send_v2.1.py -i
