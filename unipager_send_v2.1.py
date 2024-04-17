@@ -110,7 +110,8 @@ funcs = ["Func0", "Func1", "Func2", "Func3"]
 m_func = funcs[int(args.func)]
 
 # Prepend sender to the message
-msg_with_sender = f"{sender}: {msg}"
+#msg_with_sender = f"{sender}: {msg}"
+msg_with_sender = "{}: {}".format(sender, msg)
 
 # SendMessage with Variables
 ws.send('{"Authenticate":"' + password + '"}')
