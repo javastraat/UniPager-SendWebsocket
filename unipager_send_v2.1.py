@@ -1,21 +1,25 @@
+#!/opt/homebrew/bin/python3.11
 import json
 import pprint
 import websocket
 import argparse
 
 print('Send paging call directly via Unipager')
-print('Websocket version: ' + websocket.__version__)
 
 from websocket import create_connection
 
 DEBUG = False
 
-def debug( str ):
+def debug(str):
     if DEBUG:
-        print (str)
+        print(str)
     return
 
-parser = argparse.ArgumentParser(description='f.e. unipager_send.py --hostname serverip --password passw0rd --ric 1234 --msg "yourtext here"')
+# Function to display WebSocket version
+def display_websocket_version():
+    print('Websocket version: ' + websocket.__version__)
+
+parser = argparse.ArgumentParser(description='Send paging call directly via Unipager')
 parser.add_argument('--hostname', default='localhost',
                     help='The host running Unipager, default localhost')
 parser.add_argument('--port', default='8055',
@@ -35,8 +39,15 @@ parser.add_argument('--sender', dest='sender', default='',
 parser.add_argument('--debug', dest='debug', action='store_true',
                     help='Enable debug')
 parser.add_argument('-i', '--interactive', action='store_true', help='Enable interactive mode')
+parser.add_argument('-v', '--version', action='store_true', help='Display WebSocket version')
 
 args = parser.parse_args()
+
+# Display WebSocket version if -v flag is provided
+if args.version:
+    display_websocket_version()
+    exit()
+
 DEBUG |= args.debug
 if DEBUG: print("Debug enabled")
 
