@@ -1,50 +1,44 @@
-#!/opt/homebrew/bin/python3.11
 import json
 import pprint
 import websocket
 import argparse
 
-# Default values
-DEFAULT_HOSTNAME = 'localhost'
-DEFAULT_PORT = '8055'
-DEFAULT_PASSWORD = None
-DEFAULT_TYPE = 1
-DEFAULT_FUNC = 3
-DEFAULT_MSG = ''
-DEFAULT_SENDER = ''
+print('Send paging call directly via Unipager')
+print('Websocket version: ' + websocket.__version__)
 
-# Function to display WebSocket version
-def display_websocket_version():
-    print('Websocket version: ' + websocket.__version__)
+from websocket import create_connection
 
-parser = argparse.ArgumentParser(description='Send paging call directly via Unipager')
-parser.add_argument('--hostname', default=DEFAULT_HOSTNAME,
+DEBUG = False
+
+def debug( str ):
+    if DEBUG:
+        print (str)
+    return
+
+parser = argparse.ArgumentParser(description='f.e. unipager_send.py --hostname serverip --password passw0rd --ric 1234 --msg "yourtext here"')
+parser.add_argument('--hostname', default='localhost',
                     help='The host running Unipager, default localhost')
-parser.add_argument('--port', default=DEFAULT_PORT,
+parser.add_argument('--port', default='8055',
                     help='The port Unipager is listening, default 8055')
-parser.add_argument('--password', default=DEFAULT_PASSWORD, type=str,
+parser.add_argument('--password', default=None, type=str,
                     help='The Unipager password, default empty')
 parser.add_argument('--ric', dest='ric', default=None, type=int,
                     help='RIC to send the message to')
-parser.add_argument('--type', dest='type', default=DEFAULT_TYPE,
+parser.add_argument('--type', dest='type', default=1,
                     help='0 = Numeric, 1 = Alphanumeric, default 1')
-parser.add_argument('--func', dest='func', default=DEFAULT_FUNC,
+parser.add_argument('--func', dest='func', default=3,
                     help='Function Bits in POCSAG datagram, default 3')
-parser.add_argument('--msg', dest='msg', default=DEFAULT_MSG,
+parser.add_argument('--msg', dest='msg', default='',
                     help='Message, if containing spaces: "TEXT WITH SPACES"')
-parser.add_argument('--sender', dest='sender', default=DEFAULT_SENDER,
+parser.add_argument('--sender', dest='sender', default='',
                     help='Sender of the message')
 parser.add_argument('--debug', dest='debug', action='store_true',
                     help='Enable debug')
 parser.add_argument('-i', '--interactive', action='store_true', help='Enable interactive mode')
-parser.add_argument('-v', '--version', action='store_true', help='Display WebSocket version')
 
 args = parser.parse_args()
-
-# Display WebSocket version if -v flag is provided
-if args.version:
-    display_websocket_version()
-    exit()
+DEBUG |= args.debug
+if DEBUG: print("Debug enabled")
 
 if args.interactive:
     # Interactive input
@@ -110,5 +104,5 @@ msg_with_sender = f"{sender}: {msg}"
 # SendMessage with Variables
 ws.send('{"Authenticate":"' + password + '"}')
 string_to_send = "{\"SendMessage\": {\"addr\": %s, \"data\": \"%s\", \"mtype\": \"%s\", \"func\": \"%s\"}}" % (ric, msg_with_sender, m_type, m_func)
-
+debug(string_to_send)
 ws.send(string_to_send)
