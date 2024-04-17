@@ -5,27 +5,19 @@ import websocket
 import argparse
 
 # Default values
-DEFAULT_HOSTNAME = '10.209.10.39'
+DEFAULT_HOSTNAME = 'localhost'
 DEFAULT_PORT = '8055'
-DEFAULT_PASSWORD = 'passw0rd'
+DEFAULT_PASSWORD = None
 DEFAULT_TYPE = 1
 DEFAULT_FUNC = 3
 DEFAULT_MSG = ''
 DEFAULT_SENDER = ''
 
-print('Send paging call directly via Unipager')
-print('Websocket version: ' + websocket.__version__)
+# Function to display WebSocket version
+def display_websocket_version():
+    print('Websocket version: ' + websocket.__version__)
 
-from websocket import create_connection
-
-DEBUG = False
-
-def debug( str ):
-    if DEBUG:
-        print (str)
-    return
-
-parser = argparse.ArgumentParser(description='f.e. unipager_send.py --hostname serverip --password passw0rd --ric 1234 --msg "yourtext here"')
+parser = argparse.ArgumentParser(description='Send paging call directly via Unipager')
 parser.add_argument('--hostname', default=DEFAULT_HOSTNAME,
                     help='The host running Unipager, default localhost')
 parser.add_argument('--port', default=DEFAULT_PORT,
@@ -45,10 +37,14 @@ parser.add_argument('--sender', dest='sender', default=DEFAULT_SENDER,
 parser.add_argument('--debug', dest='debug', action='store_true',
                     help='Enable debug')
 parser.add_argument('-i', '--interactive', action='store_true', help='Enable interactive mode')
+parser.add_argument('-v', '--version', action='store_true', help='Display WebSocket version')
 
 args = parser.parse_args()
-DEBUG |= args.debug
-if DEBUG: print("Debug enabled")
+
+# Display WebSocket version if -v flag is provided
+if args.version:
+    display_websocket_version()
+    exit()
 
 if args.interactive:
     # Interactive input
@@ -114,6 +110,5 @@ msg_with_sender = f"{sender}: {msg}"
 # SendMessage with Variables
 ws.send('{"Authenticate":"' + password + '"}')
 string_to_send = "{\"SendMessage\": {\"addr\": %s, \"data\": \"%s\", \"mtype\": \"%s\", \"func\": \"%s\"}}" % (ric, msg_with_sender, m_type, m_func)
-debug(string_to_send)
-ws.send(string_to_send)
 
+ws.send(string_to_send)
