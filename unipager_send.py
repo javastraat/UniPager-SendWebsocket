@@ -4,16 +4,19 @@ import pprint
 import websocket
 import argparse
 
+print('Send paging call directly via Unipager')
+print('Websocket version: ' + websocket.__version__)
+
 from websocket import create_connection
 
 DEBUG = False
 
 def debug( str ):
 	if DEBUG:
-		print str
+		print (str)
 	return
 
-parser = argparse.ArgumentParser(description='Send paging call direct via Unipager')
+parser = argparse.ArgumentParser(description='f.e. unipager_send.py --hostname serverip --password passw0rd --ric 1234567 --msg "yourtext here"')
 parser.add_argument('--hostname', default='localhost',
                     help='The host running Unipager, default localhost')
 parser.add_argument('--port', default='8055',
