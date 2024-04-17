@@ -52,4 +52,14 @@ options:
   -i, --interactive    Enable interactive mode
   -v, --version        Display WebSocket version
 ````
+````
+unipager_send_v2.1.py -i
 
+Send paging call directly via Unipager
+Enter the hostname (default: localhost): your unipager ip
+Enter the port (default: 8055): 
+Enter the Unipager password (default: empty): your unipager password
+Enter the RIC to send the message to: receiver RIC/DMR ID
+Enter the message: your text to send
+Enter the sender callsign: sender callsign
+````
