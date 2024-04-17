@@ -1,8 +1,18 @@
-#!/opt/homebrew/bin/python3.11
+#!/Library/Frameworks/Python.framework/Versions/2.7/bin/python
+##!/opt/homebrew/bin/python3.11
 import json
 import pprint
 import websocket
 import argparse
+import sys
+
+def user_input(prompt):
+    if sys.version_info.major == 3:
+        return input(prompt)
+    elif sys.version_info.major == 2:
+        return raw_input(prompt)
+    else:
+        raise NotImplementedError("Unsupported Python version")
 
 print('Send paging call directly via Unipager')
 
@@ -53,25 +63,25 @@ if DEBUG: print("Debug enabled")
 
 if args.interactive:
     # Interactive input
-    hostname = input("Enter the hostname (default: localhost): ") or args.hostname
-    port = input("Enter the port (default: 8055): ") or args.port
-    password = input("Enter the Unipager password (default: empty): ") or args.password
+    hostname = user_input("Enter the hostname (default: localhost): ") or args.hostname
+    port = user_input("Enter the port (default: 8055): ") or args.port
+    password = user_input("Enter the Unipager password (default: empty): ") or args.password
 
     # Prompt for RIC until a valid integer is provided
     while True:
         try:
-            ric = int(input("Enter the RIC to send the message to: "))
+            ric = int(user_input("Enter the RIC to send the message to: "))
             break
         except ValueError:
             print("Invalid RIC. Please enter a valid integer.")
 
     msg = args.msg
     while not msg:
-        msg = input("Enter the message: ") or args.msg
+        msg = user_input("Enter the message: ") or args.msg
     
     sender = args.sender
     while not sender:
-        sender = input("Enter the sender: ") or args.sender
+        sender = user_input("Enter the sender: ") or args.sender
 
     if not msg:
         print('No message given, nothing to do')
