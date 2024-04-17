@@ -81,7 +81,7 @@ if args.interactive:
     
     sender = args.sender
     while not sender:
-        sender = user_input("Enter the sender: ") or args.sender
+        sender = user_input("Enter the sender callsign: ") or args.sender
 
     if not msg:
         print('No message given, nothing to do')
